@@ -1,4 +1,5 @@
 #include <emmintrin.h>
+#include <immintrin.h>
 #include "GP_ONE.h"
 
 Sprite   GP_ONE::spriteMemory[MAX_SPRITE_COUNT];
