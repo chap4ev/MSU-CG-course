@@ -34,6 +34,7 @@ Total time = 0.041477 seconds
 up to 5.5x performance boost!
 
 testing on \
+linux ubuntu 20.04 \
 intel core i7 6700 \
 32 gb 2133hz
 
