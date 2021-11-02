@@ -17,14 +17,13 @@ void GP_ONE::loadSprites(const Sprite *sprites, uint16_t spriteCount) {
 
 void GP_ONE::clearFrameBuffer(BackGroundColor bkgColor) {
     // binary color tile filling
-    uint16_t filledTile = ((uint16_t) bkgColor == 0) ? 0 : ~uint16_t(0);
+    uint16_t filledTile = (static_cast<uint16_t>(bkgColor) == 0) ? 0 : ~uint16_t(0);
 
     std::fill_n(frameBuffer, FRAMEBUFFER_BUF_SIZE, filledTile);
 }
 
 
 void GP_ONE::drawSpriteInstances(const SpriteInstance *instances, uint16_t instanceCount) {
-
     for (uint16_t i = 0; i < instanceCount; ++i) {
         uint16_t *spriteAlpha = spriteMemory[instances[i].ind].alpha;
         uint16_t *spriteColor = spriteMemory[instances[i].ind].color;
@@ -38,11 +37,11 @@ void GP_ONE::drawSpriteInstances(const SpriteInstance *instances, uint16_t insta
         uint16_t frameBufferTile16Ind = (instances[i].y << 5u) + (instances[i].x >> 4u);
 
         for (uint16_t j = 0; j < SPRITE_TILES_Y; ++j) {
-            __m128i fb128tile = _mm_loadu_si128((__m128i const *) (frameBuffer + frameBufferTile16Ind));
+            __m128i fb128tile = _mm_loadu_si128(reinterpret_cast<__m128i const *>(frameBuffer + frameBufferTile16Ind));
 
             // TODO  _mm_loadl_epi64 use on aligned frameBuffer
-            __m128i spriteTileAlpha128 = _mm_loadu_si64((void const *) (spriteAlpha + spriteTileInd));
-            __m128i spriteTileColor128 = _mm_loadu_si64((void const *) (spriteColor + spriteTileInd));
+            __m128i spriteTileAlpha128 = _mm_loadu_si64(reinterpret_cast<void const *>(spriteAlpha + spriteTileInd));
+            __m128i spriteTileColor128 = _mm_loadu_si64(reinterpret_cast<void const *>(spriteColor + spriteTileInd));
 
             if (shift16 != 0) {
                 // shift alpha channel on shift16 bits
@@ -59,7 +58,7 @@ void GP_ONE::drawSpriteInstances(const SpriteInstance *instances, uint16_t insta
                                      _mm_and_si128(spriteTileColor128, spriteTileAlpha128));
 
             // load in frameBuffer
-            _mm_storeu_si128((__m128i *) (frameBuffer + frameBufferTile16Ind), fb128tile);
+            _mm_storeu_si128(reinterpret_cast<__m128i *>(frameBuffer + frameBufferTile16Ind), fb128tile);
 
             frameBufferTile16Ind += FRAMEBUFFER_TILES_X;
             spriteTileInd += SPRITE_TILES_X;

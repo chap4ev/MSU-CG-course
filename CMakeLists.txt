@@ -6,7 +6,8 @@ project(${PROJECT_NAME} VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#add_compile_options(-mavx512vl)
+#set (CMAKE_CXX_FLAGS "-mavx512vl")
+#add_compile_options(BinaryRenderer PUBLIC -mavx512vl)
 
 add_executable(BinaryRenderer
 		Source/main.cpp
