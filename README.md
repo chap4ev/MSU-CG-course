@@ -15,6 +15,7 @@ scene_4 : PASSED : 0.028381 seconds \
 Total time = 0.205783 seconds
 
 ## SIMD implementation:
+SSE3 required
 
 ./Source/GP_ONE.cpp
 

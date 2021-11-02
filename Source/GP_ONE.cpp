@@ -37,7 +37,7 @@ void GP_ONE::drawSpriteInstances(const SpriteInstance *instances, uint16_t insta
         uint16_t frameBufferTile16Ind = (instances[i].y << 5u) + (instances[i].x >> 4u);
 
         for (uint16_t j = 0; j < SPRITE_TILES_Y; ++j) {
-            __m128i fb128tile = _mm_loadu_si128(reinterpret_cast<__m128i const *>(frameBuffer + frameBufferTile16Ind));
+            __m128i fb128tile = _mm_lddqu_si128(reinterpret_cast<__m128i const *>(frameBuffer + frameBufferTile16Ind));
 
             // TODO  _mm_loadl_epi64 use on aligned frameBuffer
             __m128i spriteTileAlpha128 = _mm_loadu_si64(reinterpret_cast<void const *>(spriteAlpha + spriteTileInd));

@@ -6,8 +6,8 @@ project(${PROJECT_NAME} VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#set (CMAKE_CXX_FLAGS "-mavx512vl")
-#add_compile_options(BinaryRenderer PUBLIC -mavx512vl)
+## SIMD realization required
+set (CMAKE_CXX_FLAGS "-msse3")
 
 add_executable(BinaryRenderer
 		Source/main.cpp
